@@ -26,6 +26,8 @@ public class FinalFlag : MonoBehaviour
             {
                 _isFinished = true;
                 marker.DeactiveMarker(transform.position);
+
+                GameManager.Instance.TestForLevelEnd();
             }
         }
     }

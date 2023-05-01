@@ -10,6 +10,8 @@ public class Marker : TweenObject
 {
     [SerializeField] private float _distanceBetweenPaths = 0.5f;
     [SerializeField] private float _animTime = 10.0f;
+    public float AnimTime => _animTime;
+
     [SerializeField] private AnimationCurve _animCurve;
 
     [SerializeField] private LineRenderer _path;
@@ -19,6 +21,10 @@ public class Marker : TweenObject
 
     private bool _isMovable = false;
     public bool IsMovable => _isMovable;
+
+    private bool _isFinishied = false;
+
+    public bool IsFinished => _isFinishied;
 
     private Vector3 _startPos = Vector3.zero;
 
@@ -35,6 +41,7 @@ public class Marker : TweenObject
         Deselect();
         transform.position = _startPos;
         _path.SetPosition(0, _startPos);
+        _isFinishied = false;
     }
 
     public void SetPos(Vector3 deltaPos)
@@ -64,6 +71,7 @@ public class Marker : TweenObject
         newColor.a = 1;
         _sprite.color = newColor;
         _isMovable = true;
+        _isFinishied = false;
         _path.positionCount = 0;
         _path.positionCount++;
         _path.SetPosition(_path.positionCount - 1, transform.position + _lineOffset);
@@ -87,7 +95,7 @@ public class Marker : TweenObject
         newColor.a = 0.4f;
         _sprite.color = newColor;
         _isMovable = false;
-        GameManager.Instance.TestForLevelEnd();
+        _isFinishied = false;
     }
 
     public void Select()
@@ -122,6 +130,14 @@ public class Marker : TweenObject
             _tweenSequence.Append(transform.DOMove(nextPos, _animTime * (partDistance / distance)).SetEase(_animCurve));
             prevPos = nextPos;
         }
+
+        _tweenSequence.AppendCallback(() => { _isFinishied = true; });
+    }
+
+    public void StopAnim()
+    {
+
+        _tweenSequence.Kill();
     }
 
     public float GetPathDistance()

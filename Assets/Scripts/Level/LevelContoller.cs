@@ -7,14 +7,17 @@ namespace Level
 {
     public class LevelContoller : MonoBehaviour
     {
-        [SerializeField] private List<Marker> _markers = new List<Marker>();
-        public List<Marker> Markers => _markers;
+        [SerializeField] private Marker[] _markers;
+        public Marker[] Markers => _markers;
 
-        [SerializeField] private List<FinalFlag> _flags = new List<FinalFlag>();
-        public List<FinalFlag> Flags => _flags;
+        [SerializeField] private FinalFlag[] _flags;
+        public FinalFlag[] Flags => _flags;
 
-        [SerializeField] private List<NavMeshSurface> _surfaces = new List<NavMeshSurface>();
-        public List<NavMeshSurface> Surfaces => _surfaces;
+        [SerializeField] private NavMeshSurface[] _surfaces;
+        public NavMeshSurface[] Surfaces => _surfaces;
+
+        [SerializeField] private LoseObject[] _loseObjects;
+        public LoseObject[] LoseObjects => _loseObjects;
 
         public virtual bool Init()
         {
@@ -33,6 +36,21 @@ namespace Level
             return true;
         }
 
+        public float GetMaxTime()
+        {
+            float max = 0;
+
+            foreach (var marker in _markers)
+            {
+                if (max < marker.AnimTime)
+                {
+                    max = marker.AnimTime;
+                }
+            }
+
+            return max;
+        }
+
         public bool IsCompleteDraw()
         {
             foreach (var marker in _markers)
@@ -46,8 +64,26 @@ namespace Level
             return true;
         }
 
+        public bool IsFinal()
+        {
+            foreach (var marker in _markers)
+            {
+                if (!marker.IsFinished)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public void StartAnim()
         {
+            foreach (var loseObject in _loseObjects)
+            {
+                loseObject.SetObjectState(true);
+            }
+
             foreach (var marker in _markers)
             {
                 marker.StartAnim();
@@ -56,7 +92,10 @@ namespace Level
 
         public void StopAnim()
         {
-
+            foreach (var marker in _markers)
+            {
+                marker.StopAnim();
+            }
         }
 
         public void ResetLevel()
@@ -69,6 +108,11 @@ namespace Level
             foreach (var flag in _flags)
             {
                 flag.ResetFlag();
+            }
+
+            foreach (var loseObject in _loseObjects)
+            {
+                loseObject.SetObjectState(false);
             }
         }
     }

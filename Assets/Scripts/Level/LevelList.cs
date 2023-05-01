@@ -7,6 +7,7 @@ namespace Level
     [CreateAssetMenu(fileName = "LevelList", menuName = "DataFile/LevelList", order = 2)]
     public class LevelList : ScriptableObject
     {
-        public List<Level> levels = new List<Level>();
+        [SerializeField] public Level[] _levels;
+        public Level[] Levels => _levels;
     }
 }

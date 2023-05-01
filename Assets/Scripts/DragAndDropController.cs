@@ -6,6 +6,8 @@ public class DragAndDropController : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private float _sensetive = 1.0f;
+    [SerializeField] private LayerMask _layerMask;
+
     private Marker _selectedObject;
     private Vector3 _prevMousePos = Vector3.zero;
     
@@ -26,7 +28,7 @@ public class DragAndDropController : MonoBehaviour
             RaycastHit hit;
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, 20.0f, _layerMask))
             {
                 if (hit.collider.TryGetComponent<Marker>(out Marker other))
                 {
