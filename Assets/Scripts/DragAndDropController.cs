@@ -31,6 +31,7 @@ public class DragAndDropController : MonoBehaviour
                 if (hit.collider.TryGetComponent<Marker>(out Marker other))
                 {
                     _selectedObject = other;
+                    _selectedObject.Select();
                 }
             }
         }
@@ -39,6 +40,7 @@ public class DragAndDropController : MonoBehaviour
         {
             if (_selectedObject != null)
             {
+                _selectedObject.Deselect();
                 _selectedObject = null;
             }
         }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.AI;
+using UnityEngine.AI;
 
 namespace Level
 {
@@ -11,19 +11,24 @@ namespace Level
         public List<Marker> Markers => _markers;
 
         [SerializeField] private List<FinalFlag> _flags = new List<FinalFlag>();
-        private List<FinalFlag> Flags => _flags;
+        public List<FinalFlag> Flags => _flags;
+
+        [SerializeField] private List<NavMeshSurface> _surfaces = new List<NavMeshSurface>();
+        public List<NavMeshSurface> Surfaces => _surfaces;
 
         public virtual bool Init()
         {
-            foreach (var marker in _markers)
-            {
-                marker.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
-            }
-            ResetLevel();
-            NavMeshBuilder.ClearAllNavMeshes();
-            NavMeshBuilder.BuildNavMesh();
+            _surfaces[0].BuildNavMesh();
+            
             transform.position = Vector3.zero;
             transform.rotation = Quaternion.identity;
+
+            foreach (var marker in _markers)
+            {
+                marker.Init();
+            }
+
+            ResetLevel();
 
             return true;
         }
@@ -43,7 +48,10 @@ namespace Level
 
         public void StartAnim()
         {
-            
+            foreach (var marker in _markers)
+            {
+                marker.StartAnim();
+            }
         }
 
         public void StopAnim()

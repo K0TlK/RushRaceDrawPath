@@ -17,7 +17,12 @@ public class GameManager : Singleton<GameManager>
     {
         if (_activeLevel.IsCompleteDraw())
         {
-            Debug.Log("LevelEnd");
+            _activeLevel.StartAnim();
         }
+    }
+
+    public void RestartLevel()
+    {
+        _activeLevel.ResetLevel();
     }
 }
