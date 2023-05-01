@@ -13,7 +13,6 @@ namespace Level
         private void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
-            StartLevel(0);
         }
 
         public void NextLevel()
