@@ -2,8 +2,9 @@ using StarterPack;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace Level
+namespace RashLevel
 {
     public class LevelLoader : Singleton<LevelLoader>
     {
@@ -45,9 +46,7 @@ namespace Level
 
         public void StartLevel(Level newLevel)
         {
-            var levelPrefab = Instantiate(newLevel.LevelPrefab);
-            GameManager.Instance.SetLevel(levelPrefab);
-            levelPrefab.Init();
+            GameManager.Instance.SetLevel(newLevel);
             Debug.Log($"<i> Load Level: {newLevel.LevelName}.");
         }
     }

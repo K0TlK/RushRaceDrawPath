@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Level
+namespace RashLevel
 {
     public class LevelContoller : MonoBehaviour
     {
@@ -22,7 +22,7 @@ namespace Level
         public virtual bool Init()
         {
             _surfaces[0].BuildNavMesh();
-            
+
             transform.position = Vector3.zero;
             transform.rotation = Quaternion.identity;
 

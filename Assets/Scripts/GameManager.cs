@@ -1,8 +1,9 @@
-using Level;
+using RashLevel;
 using StarterPack;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -10,15 +11,18 @@ public class GameManager : Singleton<GameManager>
     private bool _isAnimActive = false;
     public bool IsAnimActive => _isAnimActive;
 
-    public void SetLevel(LevelContoller activeLevel)
+    public void SetLevel(Level newLevel)
     {
         if (_activeLevel != null)
         {
+            _activeLevel.gameObject.SetActive(false);
             Destroy(_activeLevel.gameObject);
             _activeLevel = null;
         }
 
-        _activeLevel = activeLevel;
+        var levelPrefab = Instantiate(newLevel.LevelPrefab);
+        levelPrefab.Init();
+        _activeLevel = levelPrefab;
         _isAnimActive = false;
     }
 
