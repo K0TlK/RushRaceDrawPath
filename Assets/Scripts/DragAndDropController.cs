@@ -9,10 +9,10 @@ public class DragAndDropController : MonoBehaviour
     [SerializeField] private LayerMask _layerMask;
 
     private Marker _selectedObject;
-    private Vector3 _prevMousePos = Vector3.zero;
+    private Vector3 _prevMousePos;
     
 
-    void Start()
+    void Awake()
     {
         if (_mainCamera == null)
         {
@@ -36,6 +36,8 @@ public class DragAndDropController : MonoBehaviour
                     _selectedObject.Select();
                 }
             }
+
+            _prevMousePos = Input.mousePosition;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -44,18 +46,18 @@ public class DragAndDropController : MonoBehaviour
             {
                 _selectedObject.Deselect();
                 _selectedObject = null;
+                _prevMousePos = Vector3.zero;
             }
         }
 
-        if (_selectedObject != null)
+        if (_selectedObject != null && _prevMousePos != Vector3.zero)
         {
             Vector3 deltaPos = Input.mousePosition - _prevMousePos;
             deltaPos.z = deltaPos.y;
             deltaPos.y = 0;
             deltaPos /= Screen.height;
             _selectedObject.SetPos(deltaPos * _mainCamera.orthographicSize * 2 * _sensetive);
+            _prevMousePos = Input.mousePosition;
         }
-
-        _prevMousePos = Input.mousePosition;
     }
 }
