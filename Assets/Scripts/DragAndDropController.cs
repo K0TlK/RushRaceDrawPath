@@ -8,7 +8,7 @@ public class DragAndDropController : MonoBehaviour
     [SerializeField] private float _sensetive = 1.0f;
     [SerializeField] private LayerMask _layerMask;
 
-    private Marker _selectedObject;
+    private DaDObject _selectedObject;
     private Vector3 _prevMousePos;
     
 

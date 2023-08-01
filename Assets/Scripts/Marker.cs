@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.ParticleSystem;
 
-public class Marker : TweenObject
+public class Marker : TweenObject, DaDObject
 {
     [SerializeField] private float _distanceBetweenPaths = 0.5f;
     [SerializeField] private float _animTime = 10.0f;
@@ -20,7 +20,11 @@ public class Marker : TweenObject
     [SerializeField] private NavMeshAgent _agent;
 
     private bool _isMovable = false;
-    public bool IsMovable => _isMovable;
+
+    public bool isMovable()
+    {
+        return _isMovable;
+    }
 
     private bool _isFinishied = false;
 
