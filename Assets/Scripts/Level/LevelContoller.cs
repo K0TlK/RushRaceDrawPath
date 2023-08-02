@@ -55,7 +55,7 @@ namespace RashLevel
         {
             foreach (var marker in _markers)
             {
-                if (marker.IsMovable)
+                if (marker.isMovable())
                 {
                     return false;
                 }
